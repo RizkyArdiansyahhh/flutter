@@ -34,41 +34,54 @@ class CounterCubit extends Cubit<int> {
 class Cubitpage extends StatelessWidget {
   CounterCubit counterCubit = CounterCubit();
 
+  Cubitpage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Cubit"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            BlocBuilder<CounterCubit, int>(
-              buildWhen: (previous, current) {
-                return current % 2 == 0;
-              },
-              bloc: counterCubit,
-              builder: (context, state) {
-                return Text("$state");
-              },
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      counterCubit.decrement();
-                    },
-                    icon: const Icon(Icons.remove)),
-                IconButton(
-                    onPressed: () {
-                      counterCubit.increment();
-                    },
-                    icon: const Icon(Icons.add))
-              ],
-            )
-          ],
+    return BlocProvider(
+      create: (context) => CounterCubit(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Cubit"),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              BlocListener<CounterCubit, int>(
+                listener: (context, state) {
+                  if (state == 2) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(const SnackBar(content: Text("hello")));
+                  }
+                },
+                child: BlocBuilder<CounterCubit, int>(
+                  buildWhen: (previous, current) {
+                    return current % 2 == 0;
+                  },
+                  bloc: counterCubit,
+                  builder: (context, state) {
+                    return Text("$state");
+                  },
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        counterCubit.decrement();
+                      },
+                      icon: const Icon(Icons.remove)),
+                  IconButton(
+                      onPressed: () {
+                        counterCubit.increment();
+                      },
+                      icon: const Icon(Icons.add))
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

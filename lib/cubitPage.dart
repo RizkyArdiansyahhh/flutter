@@ -13,7 +13,7 @@ class CounterCubit extends Cubit<int> {
   }
 
   void decrement() {
-    emit(state + 1);
+    emit(state - 1);
   }
 
 // Memantau perubahan data
@@ -48,23 +48,42 @@ class Cubitpage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BlocListener<CounterCubit, int>(
-                listener: (context, state) {
-                  if (state == 2) {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(const SnackBar(content: Text("hello")));
-                  }
-                },
-                child: BlocBuilder<CounterCubit, int>(
-                  buildWhen: (previous, current) {
-                    return current % 2 == 0;
-                  },
+              BlocConsumer(
                   bloc: counterCubit,
                   builder: (context, state) {
+                    if ((state as int) > 10) {
+                      return const CircularProgressIndicator();
+                    }
                     return Text("$state");
                   },
-                ),
-              ),
+                  listenWhen: (previous, current) => current == 10,
+                  listener: (context, state) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        duration: Duration(seconds: 1),
+                        content: Text(
+                          "Hello",
+                        ),
+                      ),
+                    );
+                  }),
+              // BlocListener<CounterCubit, int>(
+              //   listener: (context, state) {
+              //     if (state == 2) {
+              //       ScaffoldMessenger.of(context)
+              //           .showSnackBar(const SnackBar(content: Text("hello")));
+              //     }
+              //   },
+              //   child: BlocBuilder<CounterCubit, int>(
+              //     buildWhen: (previous, current) {
+              //       return current % 2 == 0;
+              //     },
+              //     bloc: counterCubit,
+              //     builder: (context, state) {
+              //       return Text("$state");
+              //     },
+              //   ),
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

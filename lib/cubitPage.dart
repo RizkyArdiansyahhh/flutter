@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,6 +14,20 @@ class CounterCubit extends Cubit<int> {
 
   void decrement() {
     emit(state + 1);
+  }
+
+// Memantau perubahan data
+  @override
+  void onChange(Change<int> change) {
+    // TODO: implement onChange
+    log("$change");
+  }
+
+  // Memantau Error
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    // TODO: implement onError
+    log("$error");
   }
 }
 

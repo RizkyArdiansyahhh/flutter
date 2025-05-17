@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CounterCubit extends Cubit<int> {
-  CounterCubit(this.intState) : super(intState);
+  CounterCubit({this.intState = 0}) : super(intState);
 
   final int intState;
 
@@ -32,7 +32,7 @@ class CounterCubit extends Cubit<int> {
 }
 
 class Cubitpage extends StatelessWidget {
-  CounterCubit counterCubit = CounterCubit(50);
+  CounterCubit counterCubit = CounterCubit();
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +44,15 @@ class Cubitpage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            StreamBuilder<int>(
-                initialData: counterCubit.intState,
-                stream: counterCubit.stream,
-                builder: (context, snapshot) {
-                  return Text("${snapshot.data}");
-                }),
+            BlocBuilder<CounterCubit, int>(
+              buildWhen: (previous, current) {
+                return current % 2 == 0;
+              },
+              bloc: counterCubit,
+              builder: (context, state) {
+                return Text("$state");
+              },
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

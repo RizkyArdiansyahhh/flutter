@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:learn_flutter/CounterPage.dart';
-import 'package:learn_flutter/cubit/counter_cubit.dart';
 import 'package:learn_flutter/number_card.dart';
-import 'stream.dart';
+import 'package:learn_flutter/provider_page.dart';
 import 'cubitPage.dart';
 
 void main() {
@@ -16,9 +14,12 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("rebuild");
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Cubitpage(),
+    return BlocProvider(
+      create: (context) => CounterCubit(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: ProviderPage(),
+      ),
     );
   }
 }

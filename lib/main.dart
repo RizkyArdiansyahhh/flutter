@@ -1,93 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:learn_flutter/number_card.dart';
-import 'package:learn_flutter/routes/routes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learn_flutter/bloc/counterBloc.dart';
+import 'package:learn_flutter/bloc/themeBloc.dart';
+import 'package:learn_flutter/pages/home_page.dart';
 
 void main() {
-  runApp(MainApp());
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  MainApp({super.key});
-  final route = MyRoutes();
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    print("rebuild");
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        onGenerateRoute: route.onGenerateRoute
-        // routes: {
-        //   "/": (context) => BlocProvider.value(
-        //         value: counterCubit,
-        //         child: ProviderPage(),
-        //       ),
-        //   "/second": (context) =>
-        //       BlocProvider.value(value: counterCubit, child: SecondPage()),
-        // },
-
-        // home: BlocProvider(
-        //   create: (context) => CounterCubit(),
-        //   child: ProviderPage(),
-        // ),
-        );
-  }
-}
-
-class MainPage extends StatelessWidget {
-  const MainPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Flutter Bloc v6.1.1 Demo"),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              NumberCard(
-                title: 'Number',
-                number: 0,
-              ),
-              SizedBox(
-                width: 40,
-              ),
-              NumberCard(
-                title: "Watch",
-                number: 0,
-              ),
-              SizedBox(
-                width: 40,
-              ),
-              NumberCard(
-                title: "Select",
-                number: 0,
-              ),
-            ],
-          ),
-          SizedBox(height: 40),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green[500],
-              shape: StadiumBorder(
-                side: BorderSide(
-                  color: Color(0xFF66BB6A),
-                  width: 2,
-                ),
-              ),
+    return BlocProvider(
+      create: (context) => Themebloc(),
+      child: BlocBuilder<Themebloc, bool>(
+        builder: (context, state) {
+          return MaterialApp(
+            theme: (state) ? ThemeData.light() : ThemeData.dark(),
+            debugShowCheckedModeBanner: false,
+            home: BlocProvider(
+              create: (context) => Counterbloc(),
+              child: const HomePage(),
             ),
-            child: Text(
-              "INCREMENT",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          )
-        ],
+          );
+        },
       ),
     );
   }

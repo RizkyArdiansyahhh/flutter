@@ -1,26 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:learn_flutter/number_card.dart';
-import 'package:learn_flutter/provider_page.dart';
-import 'cubitPage.dart';
+import 'package:learn_flutter/routes/routes.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(MainApp());
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  MainApp({super.key});
+  final route = MyRoutes();
 
   @override
   Widget build(BuildContext context) {
     print("rebuild");
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: BlocProvider(
-        create: (context) => CounterCubit(),
-        child: ProviderPage(),
-      ),
-    );
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: route.onGenerateRoute
+        // routes: {
+        //   "/": (context) => BlocProvider.value(
+        //         value: counterCubit,
+        //         child: ProviderPage(),
+        //       ),
+        //   "/second": (context) =>
+        //       BlocProvider.value(value: counterCubit, child: SecondPage()),
+        // },
+
+        // home: BlocProvider(
+        //   create: (context) => CounterCubit(),
+        //   child: ProviderPage(),
+        // ),
+        );
   }
 }
 

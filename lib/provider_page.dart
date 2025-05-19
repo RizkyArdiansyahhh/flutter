@@ -16,13 +16,14 @@ class ProviderPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (context) => BlocProvider.value(
-                      value: counterCubit,
-                      child: SecondPage(),
-                    )),
-          );
+          Navigator.pushNamed(context, "/second");
+          // Navigator.of(context).push(
+          //   MaterialPageRoute(
+          //       builder: (context) => BlocProvider.value(
+          //             value: counterCubit,
+          //             child: SecondPage(),
+          //           )),
+          // );
         },
         backgroundColor: Colors.blueAccent,
         child: const Icon(

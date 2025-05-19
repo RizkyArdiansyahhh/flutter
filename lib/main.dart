@@ -14,11 +14,11 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("rebuild");
-    return BlocProvider(
-      create: (context) => CounterCubit(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: ProviderPage(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: BlocProvider(
+        create: (context) => CounterCubit(),
+        child: ProviderPage(),
       ),
     );
   }
